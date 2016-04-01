@@ -5,30 +5,24 @@ var query = process.argv[3];
 
 switch(command){
     case 'my-tweets':
-    	
-        gerTweets();
+
+        getTweets();
 
         break;
     case 'spotify-this-song':
-        
+
         break;
     case 'movie-this':
 
         break;
     case 'do-what-it-says':
-        
+
         break;
 }
-// var query = "https://api.twitter.com/1.1/search/tweets.json?q=%40angryjenkins"
-
-	var params = {screen_name: 'nodejs'};
-	client.get('statuses/user_timeline', params, function(error, tweets, response){
-		if (!error) {
-			console.log(tweets);
-	  	}
-});.
+function getTweets(){
 
 }
+
 
 function getpotifyInfo(){
 
@@ -39,7 +33,7 @@ function getMovieInfo(){
 }
 
 function getFromRandom(){
-	fs.readFile("bestThingsEver.txt", "utf8", function(err,data){
+	fs.readFile("random.txt", "utf8", function(err,data){
 		//pull commas and make line breaks (alternate);
 
 		var output = data.split(',');
@@ -94,7 +88,7 @@ function logging(command){
 // movie name, year, IMDB Rating, Country, Language, Plot, Cast, Rotten Tomatoes Rating, Rotten Tomatoes URL.
 
 // command -- "do-what-it-says"
-// pull command and query from random.txt (using fs), 
+// pull command and query from random.txt (using fs),
 //if not movie, output results for "Mr. Nobody."
 
 //BONUS - log all commands to log.txt
