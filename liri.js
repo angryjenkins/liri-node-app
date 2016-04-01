@@ -3,7 +3,6 @@ console.log(process.argv);
 var command = process.argv[2];
 var query = process.argv[3];
 //I need cases for each liri command: my-tweets, spotify-this-song, movie-this, do-what-it-says.
-var keys = require('./keys.js');
 
 
 switch(command){
@@ -42,10 +41,10 @@ switch(command){
 
 function getTweets(){
   var Twitter = require('twitter');
-
+  var keys = require('./keys.js');
   var client = new Twitter(keys.twitterKeys);
 
-  var params = {screen_name: 'angryjenkins'};
+  var params = {screen_name: 'angryjenkins', count: 20};
   client.get('statuses/user_timeline', params, function(error, tweets, response){
     if (!error) {
       console.log(tweets);
@@ -72,7 +71,7 @@ function getFromRandom(){
 
 }
 
-function logging(command){
+function logging(command, query){
 
 }
 
