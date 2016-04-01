@@ -4,7 +4,6 @@ var command = process.argv[2];
 var query = process.argv[3];
 //I need cases for each liri command: my-tweets, spotify-this-song, movie-this, do-what-it-says.
 
-
 switch(command){
     case 'my-tweets':
 
@@ -15,22 +14,16 @@ switch(command){
   case 'spotify-this-song':
 
     console.log("this should get spotify information.");
-
+    getSpotifyInfo();
     break;
   case 'movie-this':
     console.log("this should get movie information.");
-
+    getMovieInfo();
     break;
   case 'do-what-it-says':
-    var fs = require('fs');
+    getFromRandom();
+    getSpotifyInfo();
 
-    fs.readFile('./random.txt', "utf8", function(err, data){
-        data = data.split(', ');
-        var command = data[0];
-        var query = data[1];
-
-        getSpotifyInfo(command, query);
-    });
     console.log("this should pull a spotify query from randon.txt.");
 
     break;
@@ -44,6 +37,7 @@ function getTweets(){
   var client = new Twitter(keys.twitterKeys);
 
   var params = {screen_name: 'angryjenkins', count: 20};
+
   client.get('statuses/user_timeline', params, function(error, tweets, response){
     if (!error) {
       console.log(tweets);
@@ -52,23 +46,49 @@ function getTweets(){
 
 }
 
-function getSpotifyInfo(command,query){
+function getSpotifyInfo(){
+  var query = process.argv[3];
+  var spotify = require('spotify');
+
+  spotify.search({ type: 'track', query: query}, function(err, data) {
+      if ( err ) {
+          console.log('Error occurred: ' + err);
+          return;
+      }
+
+      var spotifyData = data.tracks.items[0];
+
+      console.log(spotifyData);
+
+  });
 
 }
 
-function getMovieInfo(command,query){
+function getMovieInfo(query){
+  var request = require('request');
+  var queryURL = 'http://www.omdbapi.com/?type=movie&s=' + query;
   // sample request api call
   // var request = require('request');
-  // request.get('http://www.modulus.io', function (error, response, body) {
-  //     if (!error && response.statusCode == 200) {
-  //         console.log(body); // Show the HTML for the Modulus homepage.
-  //     }
-  // });
-
-  // OMDB API: http://www.omdbapi.com/?
+  request.get(queryURL, function (error, response, body) {
+      if (!error && response.statusCode == 200) {
+          console.log(response); // Show the HTML for the Modulus homepage.
+      }
+  });
 }
 
 function getFromRandom(){
+    var fs = require('fs');
+
+    fs.readFile('./random.txt', "utf8", function(err, data){
+        data = data.split(', ');
+        console.log(data);
+        return data;
+
+    });
+
+    var command = data[0];
+    var query = data[1];
+
 
 }
 
