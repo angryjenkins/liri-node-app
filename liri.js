@@ -8,9 +8,8 @@ var query = process.argv[3];
 switch(command){
     case 'my-tweets':
 
-
+      console.log("Getting tweets, ....");
       getTweets();
-      console.log("tweets should be gotten.");
 
       break;
   case 'spotify-this-song':
@@ -53,11 +52,11 @@ function getTweets(){
 
 }
 
-function getSpotifyInfo(){
+function getSpotifyInfo(command,query){
 
 }
 
-function getMovieInfo(){
+function getMovieInfo(command,query){
   // sample request api call
   // var request = require('request');
   // request.get('http://www.modulus.io', function (error, response, body) {
@@ -65,6 +64,8 @@ function getMovieInfo(){
   //         console.log(body); // Show the HTML for the Modulus homepage.
   //     }
   // });
+
+  // OMDB API: http://www.omdbapi.com/?
 }
 
 function getFromRandom(){
