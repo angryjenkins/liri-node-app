@@ -9,15 +9,20 @@ switch(command){
     case 'my-tweets':
 
         getTweets();
+        console.log("this should get tweets.");
 
         break;
     case 'spotify-this-song':
 
+      console.log("this should get spotify information.");
+
         break;
     case 'movie-this':
+        console.log("this should get movie information.");
 
         break;
     case 'do-what-it-says':
+        console.log("this should pull a spotify query from randon.txt.");
 
         break;
 }
