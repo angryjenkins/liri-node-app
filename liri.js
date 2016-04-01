@@ -2,8 +2,8 @@ console.log(process.argv);
 
 var command = process.argv[2];
 var query = process.argv[3];
-var keys = require('./keys.js');
 //I need cases for each liri command: my-tweets, spotify-this-song, movie-this, do-what-it-says.
+var keys = require('./keys.js');
 
 
 switch(command){
@@ -41,13 +41,11 @@ switch(command){
 // We will need functions for the following: my-tweets, spotify-this-song, movie-this,do-what-it-says.
 
 function getTweets(){
-  keys();
-
   var Twitter = require('twitter');
 
-  var client = new Twitter(twitterKeys);
+  var client = new Twitter(keys.twitterKeys);
 
-  var params = {screen_name: 'nodejs'};
+  var params = {screen_name: 'angryjenkins'};
   client.get('statuses/user_timeline', params, function(error, tweets, response){
     if (!error) {
       console.log(tweets);
