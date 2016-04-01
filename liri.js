@@ -2,43 +2,72 @@ console.log(process.argv);
 
 var command = process.argv[2];
 var query = process.argv[3];
-
+var keys = require('./keys.js');
 //I need cases for each liri command: my-tweets, spotify-this-song, movie-this, do-what-it-says.
+
 
 switch(command){
     case 'my-tweets':
 
-        getTweets();
-        console.log("this should get tweets.");
 
-        break;
-    case 'spotify-this-song':
+      getTweets();
+      console.log("tweets should be gotten.");
 
-      console.log("this should get spotify information.");
+      break;
+  case 'spotify-this-song':
 
-        break;
-    case 'movie-this':
-        console.log("this should get movie information.");
+    console.log("this should get spotify information.");
 
-        break;
-    case 'do-what-it-says':
-        console.log("this should pull a spotify query from randon.txt.");
+    break;
+  case 'movie-this':
+    console.log("this should get movie information.");
 
-        break;
+    break;
+  case 'do-what-it-says':
+    var fs = require('fs');
+
+    fs.readFile('./random.txt', "utf8", function(err, data){
+        data = data.split(', ');
+        var command = data[0];
+        var query = data[1];
+
+        getSpotifyInfo(command, query);
+    });
+    console.log("this should pull a spotify query from randon.txt.");
+
+    break;
 }
 
 // We will need functions for the following: my-tweets, spotify-this-song, movie-this,do-what-it-says.
 
 function getTweets(){
+  keys();
+
+  var Twitter = require('twitter');
+
+  var client = new Twitter(twitterKeys);
+
+  var params = {screen_name: 'nodejs'};
+  client.get('statuses/user_timeline', params, function(error, tweets, response){
+    if (!error) {
+      console.log(tweets);
+    }
+});
 
 }
 
-function getpotifyInfo(){
+function getSpotifyInfo(){
 
 }
 
 function getMovieInfo(){
-
+  // sample request api call
+  // var request = require('request');
+  // request.get('http://www.modulus.io', function (error, response, body) {
+  //     if (!error && response.statusCode == 200) {
+  //         console.log(body); // Show the HTML for the Modulus homepage.
+  //     }
+  // });
 }
 
 function getFromRandom(){
