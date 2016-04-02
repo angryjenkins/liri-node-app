@@ -1,6 +1,7 @@
 // console.log(process.argv);
 
 var command = process.argv[2];
+var query;
 
 //I need cases for each liri command: my-tweets, spotify-this-song, movie-this, do-what-it-says.
 
@@ -116,10 +117,10 @@ function getMovieInfo(){
 
 function getFromRandom(){
     var fs = require('fs');
+    var query;
 
     fs.readFile('./random.txt', "utf8", function(err, data){
         data = data.split(',');
-        console.log(data);
         // return data;
         var command = data[0];
         var query = data[1];
@@ -131,6 +132,7 @@ function getFromRandom(){
         logging(command,query);
 
         return query;
+
     });
 
 }
@@ -144,7 +146,7 @@ function logging(){
   } else if(command =='my-tweets') {
     var logQuery = '(@angryjenkins)';
   } else if (command == 'do-what-it-says'){
-    var logQuery = '(set in randon.txt)';
+    var logQuery = '(set in random.txt)';
   }
 
   fs.appendFile('liriLog.txt', logTime + ': ' + command + ' -- ' + logQuery + '\n');
