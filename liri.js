@@ -99,16 +99,17 @@ function getMovieInfo(){
   if(process.argv[3]){
     var query = process.argv[3];
   } else {
-    var query = "Mr Nobody";
+    var query = "Mr. Nobody";
   }
 
   var request = require('request');
-  var queryURL = 'http://www.omdbapi.com/?type=movie&s=' + query;
+  var queryURL = 'https://www.omdbapi.com/?type=movie&plot=short&r=json&t=' + query;
   // sample request api call
   // var request = require('request');
   request.get(queryURL, function (error, response, body) {
       if (!error && response.statusCode == 200) {
-          console.log(response.body);
+          var movieData = JSON.parse(response.body);
+          console.log(movieData["Title"]);
       }
   });
 
