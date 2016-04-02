@@ -16,14 +16,14 @@ switch(command){
     console.log("Getting spotify info, ....");
 
     getSpotifyInfo();
-    logging(command,query);
+    logging(command);
     break;
 
   case 'movie-this':
     console.log("Getting OMDB info, ....");
 
     getMovieInfo();
-    logging(command,query);
+    logging(command);
     break;
 
   case 'do-what-it-says':
@@ -67,11 +67,11 @@ function getTweets(){
 function getSpotifyInfo(){
   var spotify = require('spotify');
 
-if(process.argv[3]){
+  if(process.argv[3]){
     var query = process.argv[3];
-} else {
-  var query = 'whats my age again';
-}
+  } else {
+    var query = 'whats my age again';
+  }
 
 
   spotify.search({ type: 'track', limit: "1", offset: "1", query: query}, function(err, data) {
@@ -141,9 +141,10 @@ function logging(){
   var logTime = new Date();
   if(process.argv[3]){
     var logQuery = process.argv[3];
-
-  } else {
+  } else if(command =='my-tweets') {
     var logQuery = '(@angryjenkins)';
+  } else if (command == 'do-what-it-says'){
+    var logQuery = '(set in randon.txt)';
   }
 
   fs.appendFile('liriLog.txt', logTime + ': ' + command + ' -- ' + logQuery + '\n');
