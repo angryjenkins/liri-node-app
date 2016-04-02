@@ -114,7 +114,7 @@ function getMovieInfo(){
       }
   });
 
-  return query;
+  // return query;
 }
 
 function getFromRandom(){

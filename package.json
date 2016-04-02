@@ -1,0 +1,30 @@
+{
+  "name": "liri-node-app",
+  "version": "1.0.0",
+  "description": "SIRI for Language.",
+  "main": "index.js",
+  "dependencies": {
+    "request": "^2.69.0",
+    "spotify": "^0.3.0",
+    "twitter": "^1.2.5"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/angryjenkins/liri-node-app.git"
+  },
+  "keywords": [
+    "liri",
+    "matt",
+    "martin"
+  ],
+  "author": "@angryjenkins",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/angryjenkins/liri-node-app/issues"
+  },
+  "homepage": "https://github.com/angryjenkins/liri-node-app#readme"
+}
