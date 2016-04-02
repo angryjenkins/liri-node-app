@@ -109,7 +109,8 @@ function getMovieInfo(){
   request.get(queryURL, function (error, response, body) {
       if (!error && response.statusCode == 200) {
           var movieData = JSON.parse(response.body);
-          console.log(movieData["Title"]);
+          console.log(movieData);
+          console.log("Title: " + movieData["Title"]);
       }
   });
 
