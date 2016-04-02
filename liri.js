@@ -1,7 +1,14 @@
 console.log(process.argv);
 
 var command = process.argv[2];
-var query = process.argv[3];
+var count = 0;
+
+if(!process.argv[3]){
+  var query = '--none set--';
+} else {
+  var query = process.argv[3];
+}
+
 //I need cases for each liri command: my-tweets, spotify-this-song, movie-this, do-what-it-says.
 
 switch(command){
@@ -54,6 +61,8 @@ function getTweets(){
       }
     }
   });
+
+  return query;
 }
 
 function getSpotifyInfo(){
@@ -76,6 +85,8 @@ function getSpotifyInfo(){
       console.log('album: ' + spotifyData.album.name);
       console.log('release date: ' + data.release_date);
     });
+
+    return query;
 }
 
 function getMovieInfo(){
@@ -89,6 +100,8 @@ function getMovieInfo(){
           console.log(response.body);
       }
   });
+
+  return query;
 }
 
 function getFromRandom(){
@@ -103,18 +116,25 @@ function getFromRandom(){
 
         console.log('Command: ' + command);
         console.log('Query: ' + query);
-        return query;
+
     });
+
+    return query;
 }
 
 function logging(){
   var fs = require('fs');
 
-  if(command == "twitter"){
+  var logTime = new Date();
+  if(command == 'my-tweets'){
     var query = '@angryjenkins';
+  } else if (command == 'do-what-it-says'){
+    var query = '--set in random.txt--';
+  } else {
+    var query = process.argv[3];
   }
 
-  fs.appendFile('liriLog.txt', command + ' -- ' + query);
+  fs.appendFile('liriLog.txt', logTime + ': ' + command + ' -- ' + query + '\n');
 
   console.log("activity logged: "+ command + ' , ' + query);
 }
