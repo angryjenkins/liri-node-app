@@ -1,43 +1,36 @@
-console.log(process.argv);
+// console.log(process.argv);
 
 var command = process.argv[2];
-var count = 0;
-
-if(!process.argv[3]){
-  var query = '--none set--';
-} else {
-  var query = process.argv[3];
-}
 
 //I need cases for each liri command: my-tweets, spotify-this-song, movie-this, do-what-it-says.
 
 switch(command){
     case 'my-tweets':
+    console.log("Getting tweets, ....");
 
-      console.log("Getting tweets, ....");
-      getTweets();
-      logging(command,query);
-      break;
+    getTweets();
+    logging(command);
+    break;
 
   case 'spotify-this-song':
+    console.log("Getting spotify info, ....");
 
-    console.log("this should get spotify information.");
     getSpotifyInfo();
     logging(command,query);
     break;
 
   case 'movie-this':
-    console.log("this should get movie information.");
+    console.log("Getting OMDB info, ....");
+
     getMovieInfo();
     logging(command,query);
     break;
 
   case 'do-what-it-says':
-    getFromRandom();
-    getSpotifyInfo(query);
-    console.log("this should pull a spotify query from random.txt.");
+    console.log("Reading random.txt, ....");
 
-    logging(command,query);
+    getFromRandom();
+
     break;
 }
 
@@ -48,7 +41,13 @@ function getTweets(){
   var keys = require('./keys.js');
   var client = new Twitter(keys.twitterKeys);
 
-  var params = {screen_name: 'angryjenkins', count: 20};
+  if(process.argv[3]){
+    var query = process.argv[3];
+  } else {
+    var query = '@angryjenkins';
+  }
+
+  var params = {screen_name: query, count: 20};
 
   client.get('statuses/user_timeline', params, function(error, tweets, response){
     if (!error) {
@@ -67,7 +66,13 @@ function getTweets(){
 
 function getSpotifyInfo(){
   var spotify = require('spotify');
-  var query = process.argv[3];
+
+if(process.argv[3]){
+    var query = process.argv[3];
+} else {
+  var query = 'whats my age again';
+}
+
 
   spotify.search({ type: 'track', limit: "1", offset: "1", query: query}, function(err, data) {
       if ( err ) {
@@ -90,8 +95,13 @@ function getSpotifyInfo(){
 }
 
 function getMovieInfo(){
+  if(process.argv[3]){
+    var query = process.argv[3];
+  } else {
+    var query = "Mr Nobody";
+  }
+
   var request = require('request');
-  var query = process.argv[3];
   var queryURL = 'http://www.omdbapi.com/?type=movie&s=' + query;
   // sample request api call
   // var request = require('request');
@@ -117,26 +127,28 @@ function getFromRandom(){
         console.log('Command: ' + command);
         console.log('Query: ' + query);
 
+        getSpotifyInfo(query);
+        logging(command,query);
+
+        return query;
     });
 
-    return query;
 }
 
 function logging(){
   var fs = require('fs');
 
   var logTime = new Date();
-  if(command == 'my-tweets'){
-    var query = '@angryjenkins';
-  } else if (command == 'do-what-it-says'){
-    var query = '--set in random.txt--';
+  if(process.argv[3]){
+    var logQuery = process.argv[3];
+
   } else {
-    var query = process.argv[3];
+    var logQuery = '(@angryjenkins)';
   }
 
-  fs.appendFile('liriLog.txt', logTime + ': ' + command + ' -- ' + query + '\n');
+  fs.appendFile('liriLog.txt', logTime + ': ' + command + ' -- ' + logQuery + '\n');
 
-  console.log("activity logged: "+ command + ' , ' + query);
+  console.log("activity logged: "+ command + ' , ' + logQuery);
 }
 
 
