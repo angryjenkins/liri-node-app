@@ -119,9 +119,10 @@ function getMovieInfo(){
 
 
       for (var key in movieData) {
-        if (key ==="Title" || key === "Year" || key === "Rated" || key === "Released" || key === "Director" || key === "Actors" || key === "Plot" || key === "Country" || key === "imdbRating" || key === "Language"){
-          //log each object key pair in movieData
+        if (key ==="Title" || key === "Year" || key === "Rated" || key === "Released" || key === "Director" || key === "Actors" || key === "Plot" || key === "Country" || key === "Language" || key === "imdbRating"
+){
           if (movieData.hasOwnProperty(key)) {
+            //log each object key pair in movieData
             console.log(key + ": " + movieData[key]);
           }
         }
