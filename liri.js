@@ -10,28 +10,28 @@ switch(command){
     console.log("Getting tweets, ....");
 
     getTweets();
-    logging(command);
+    logging();
     break;
 
   case 'spotify-this-song':
     console.log("Getting spotify info, ....");
 
     getSpotifyInfo();
-    logging(command);
+    logging();
     break;
 
   case 'movie-this':
     console.log("Getting OMDB info, ....");
 
     getMovieInfo();
-    logging(command);
+    logging();
     break;
 
   case 'do-what-it-says':
     console.log("Reading random.txt, ....");
 
     getFromRandom();
-
+    logging();
     break;
 }
 
@@ -48,6 +48,7 @@ function getTweets(){
     var query = '@angryjenkins';
   }
 
+  // function to pull 20 of my tweets with timestamps.
   var params = {screen_name: query, count: 20};
 
   client.get('statuses/user_timeline', params, function(error, tweets, response){
@@ -60,16 +61,16 @@ function getTweets(){
         console.log("Tweet: " + tweets[i].text);
       }
     }
-  });
-
-  return query;
-}
+  })
+};
 
 function getSpotifyInfo(){
   var spotify = require('spotify');
 
   if(process.argv[3]){
     var query = process.argv[3];
+  } else if (command =='do-what-it-says'){
+    var query = query;
   } else {
     var query = 'whats my age again';
   }
@@ -90,10 +91,8 @@ function getSpotifyInfo(){
       console.log('preview link: ' + spotifyData.external_urls.spotify);
       console.log('album: ' + spotifyData.album.name);
       console.log('release date: ' + data.release_date);
-    });
-
-    return query;
-}
+    })
+};
 
 function getMovieInfo(){
   if(process.argv[3]){
@@ -107,37 +106,56 @@ function getMovieInfo(){
   // sample request api call
   // var request = require('request');
   request.get(queryURL, function (error, response, body) {
-      if (!error && response.statusCode == 200) {
-          var movieData = JSON.parse(response.body);
-          console.log(movieData);
-          console.log("Title: " + movieData["Title"]);
+    if (!error && response.statusCode == 200) {
+      var movieData = JSON.parse(response.body);
+      // console.log(movieData);
+      // console.log("Title: " + movieData["Title"]);
+      console.log(movieData);
+      console.log('----');
+      for (var key in movieData) {
+        if (key ==="Title" || key === "Year" || key === "Rated" || key === "released" || key === "Director" || key === "Actors" || key === "Plot"){
+          //log each object key pair in movieData
+          if (movieData.hasOwnProperty(key)) {
+            console.log(key + ": " + movieData[key]);
+          }
+        }
       }
-  });
-
-  return query;
-}
+    }
+  })
+};
 
 function getFromRandom(){
-    var fs = require('fs');
-    var query;
+  var fs = require('fs');
 
-    fs.readFile('./random.txt', "utf8", function(err, data){
-        data = data.split(',');
-        // return data;
-        var command = data[0];
-        var query = data[1];
+  fs.readFile('./random.txt', "utf8", function(err, data){
+    data = data.split(',');
+    // return data;
+    var command = data[0];
+    var query = data[1];
 
-        console.log('Command: ' + command);
-        console.log('Query: ' + query);
+    console.log('Command: ' + command);
+    console.log('Query: ' + query);
 
-        getSpotifyInfo(query);
-        logging(command,query);
+    var spotify = require('spotify');
 
-        return query;
+    spotify.search({ type: 'track', limit: "1", offset: "1", query: query}, function(err, data) {
+      if ( err ) {
+          console.log('Error occurred: ' + err);
+          return;
+      }
 
-    });
+      var spotifyData = data.tracks.items[0];
 
-}
+      // console.log(spotifyData);
+      console.log('Your Song Query *****');
+      console.log('artist: ' + spotifyData.artists[0].name);
+      console.log('song title: ' + spotifyData.name);
+      console.log('preview link: ' + spotifyData.external_urls.spotify);
+      console.log('album: ' + spotifyData.album.name);
+      // console.log('release date: ' + data.release_date);
+    })
+  })
+};
 
 function logging(){
   var fs = require('fs');
@@ -163,13 +181,12 @@ function logging(){
 
 // command == my-tweets:
 //require twitter.
-// function to pull 20 of my tweets with timestamps.
 
 
 // command == spotify-this-song
 //require spotify.
 // add var query = process.argv[3];
-// from spotfiy, get: artist, song title, preview link, album, year.
+// from spotify, get: artist, song title, preview link, album, year.
 //  If no song default to Blink 182 - what's my age again.
 
 
