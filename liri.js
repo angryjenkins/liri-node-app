@@ -56,7 +56,7 @@ function getTweets(){
 
       for(i=0; i<tweets.length;i++){
         console.log("Tweet #" + (i+1));
-        console.log("Screen Name: @" + tweets[i].user.screen_name + " (Real Name: " + tweets[i].user.name  + ")");
+        console.log("Screen Name: @" + tweets[i].user.screen_name + " (" + tweets[i].user.name  + ")");
         console.log("Created: " + tweets[i].created_at);
         console.log("Tweet: " + tweets[i].text);
       }
@@ -83,14 +83,17 @@ function getSpotifyInfo(){
       }
 
       var spotifyData = data.tracks.items[0];
+      var artists = spotifyData.artists;
 
-      // console.log(spotifyData);
+      console.log(spotifyData);
+      console.log(artists);
+      console.log('--------');
       console.log('Your Song Query *****');
       console.log('artist: ' + spotifyData.artists[0].name);
       console.log('song title: ' + spotifyData.name);
       console.log('preview link: ' + spotifyData.external_urls.spotify);
       console.log('album: ' + spotifyData.album.name);
-      console.log('release date: ' + data.release_date);
+      // console.log('release date: ' + data.release_date);
     })
 };
 
@@ -100,20 +103,23 @@ function getMovieInfo(){
   } else {
     var query = "Mr. Nobody";
   }
+  //  use OMDB API via request npm package to pull:
 
   var request = require('request');
   var queryURL = 'https://www.omdbapi.com/?type=movie&plot=short&r=json&t=' + query;
-  // sample request api call
-  // var request = require('request');
+
   request.get(queryURL, function (error, response, body) {
     if (!error && response.statusCode == 200) {
       var movieData = JSON.parse(response.body);
-      // console.log(movieData);
-      // console.log("Title: " + movieData["Title"]);
-      console.log(movieData);
-      console.log('----');
+
+      // movie name, year, IMDB Rating, Country, Language, Plot, Cast, Rotten Tomatoes Rating, Rotten Tomatoes URL.
+
+      // var movieOutput = ['Title','Year','Rated','Released','Director','Actors','imdbRating','Country','Language'];
+      //would be shorter to say "if key is in movieOutput" below.....
+
+
       for (var key in movieData) {
-        if (key ==="Title" || key === "Year" || key === "Rated" || key === "released" || key === "Director" || key === "Actors" || key === "Plot"){
+        if (key ==="Title" || key === "Year" || key === "Rated" || key === "Released" || key === "Director" || key === "Actors" || key === "Plot" || key === "Country" || key === "imdbRating" || key === "Language"){
           //log each object key pair in movieData
           if (movieData.hasOwnProperty(key)) {
             console.log(key + ": " + movieData[key]);
@@ -163,15 +169,13 @@ function logging(){
   var logTime = new Date();
   if(process.argv[3]){
     var logQuery = process.argv[3];
-  } else if(command =='my-tweets') {
+  } else if (command =='my-tweets') {
     var logQuery = '(@angryjenkins)';
   } else if (command == 'do-what-it-says'){
     var logQuery = '(set in random.txt)';
   }
 
   fs.appendFile('liriLog.txt', logTime + ': ' + command + ' -- ' + logQuery + '\n');
-
-  console.log("activity logged: "+ command + ' , ' + logQuery);
 }
 
 
@@ -192,7 +196,6 @@ function logging(){
 
 // command == movie-this
 //require request.
-//  use OMDB API via request npm package to pull:
 // movie name, year, IMDB Rating, Country, Language, Plot, Cast, Rotten Tomatoes Rating, Rotten Tomatoes URL.
 
 
