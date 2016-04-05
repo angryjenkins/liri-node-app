@@ -87,8 +87,6 @@ function getSpotifyInfo(){
       }
 
       var spotifyData = data.tracks.items[0];
-      var artists = spotifyData.artists;
-
 
       console.log('--------');
       console.log('Your Song Query *****');
@@ -131,7 +129,7 @@ function getMovieInfo(){
 
 function getFromRandom(){
   var fs = require('fs');
-
+  //read the text file to get the command/query.
   fs.readFile('./random.txt', "utf8", function(err, data){
     data = data.split(',');
     // return data;
@@ -140,6 +138,8 @@ function getFromRandom(){
 
     console.log('Command: ' + command);
     console.log('Query: ' + query);
+
+    //perform proper task for each command case.
 
     if(command =='spotify-this-song'){
       var spotify = require('spotify');
@@ -162,6 +162,7 @@ function getFromRandom(){
         console.log('album: ' + spotifyData.album.name);
         // console.log('release date: ' + data.release_date);
       });
+
     } else if (command == 'my-tweets'){
       var Twitter = require('twitter');
       var keys = require('./keys.js');
@@ -180,7 +181,8 @@ function getFromRandom(){
             console.log("Tweet: " + tweets[i].text);
           }
         }
-      })
+      });
+
     } else if (command == 'movie-this'){
       var request = require('request');
       var queryURL = 'https://www.omdbapi.com/?type=movie&plot=short&r=json&t=' + query;
@@ -211,12 +213,13 @@ function getFromRandom(){
 };
 
 function logging(){
+  //this function logs the date, command and query of each execution.
   var fs = require('fs');
 
   var logTime = new Date();
   if(process.argv[3]){
     var logQuery = process.argv[3];
-  } else if (command =='my-tweets') {
+  } else if (!process.argv && command =='my-tweets') {
     var logQuery = '(@angryjenkins)';
   } else if (command == 'do-what-it-says'){
     var logQuery = '(set in random.txt)';
