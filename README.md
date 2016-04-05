@@ -8,7 +8,8 @@ This is LIRI. LIRI is a command line application built with Node v5.10.0. it use
 Installation
 ------------
 
-To install this application, simply clone this repo to your computer
+To install this application, simply clone this repo to your computer:
+
 *$ git clone https://github.com/angryjenkins/liri-node-app.git*
 
 Operation
@@ -28,6 +29,6 @@ example: $ node liri movie-this fargo
 
 * *spotify-this-song* by default, will log song info from spotify for Blink 182's "What's My Age Again". include a fourth argument to query a specific song title.
 
-example: $ nodeliri spotify-this-song juicy
+example: $ node liri spotify-this-song juicy
 
 * *do-what-it-says* this  command pulls a command and query from the textfile "random.txt"
