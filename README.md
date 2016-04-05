@@ -27,7 +27,7 @@ example: $ node liri my-tweets angryjenkins
 
 example: $ node liri movie-this fargo
 
-+ *spotify-this-song* by default, will log song info from spotify for Blink 182's "What's My Age Again". include a fourth argument to query a specific song title.
++ *spotify-this-song* by default, will log song info from Spotify for Blink 182's "What's My Age Again". include a fourth argument to query a specific song title.
 
 example: $ node liri spotify-this-song juicy
 
