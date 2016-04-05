@@ -19,7 +19,7 @@ To use the application, open a terminal or bash window in the directory you clon
 
 To call the app, the first two arguments will be *node liri*. After this, use the following:
 
-+ *my-tweets* - by default, will log my last twenty tweets. Include a fourth argument with of th e twitter handle you want to query to pull their last twenty tweets.
++ *my-tweets* - by default, will log my last twenty tweets. Include a fourth argument with the twitter handle you want to query to pull their last twenty tweets.
 
 example: $ node liri my-tweets angryjenkins
 
