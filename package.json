@@ -2,7 +2,7 @@
   "name": "liri-node-app",
   "version": "1.0.0",
   "description": "SIRI for Language.",
-  "main": "index.js",
+  "main": "liri.js",
   "dependencies": {
     "request": "^2.69.0",
     "spotify": "^0.3.0",
